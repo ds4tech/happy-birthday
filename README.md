@@ -70,3 +70,10 @@ docker build -t happy-birthday .
 docker tag happy-birthday:latest 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:latest
 docker push 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:latest
 ```
+
+## USEAGE <a name="usage"></a>
+
+
+## Continous Integration <a name="ci"></a>
+Pipeline script written in Groovy is placed in [build/ci directory](https://github.com/ds4tech/happy-birthday/blob/master/build/ci/pipeline.yaml). It is dedicated for Jenkins Pipeline JOB. <br>
+To run Jenkins on AWS, run terraform scripts in ```deployments/aws/jenkins-ec2_instance```
