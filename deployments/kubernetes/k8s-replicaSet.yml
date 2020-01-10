@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: go-calc
+  labels:
+    app: go-calc
+    tier: go-calc
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: go-calc
+  template:
+    metadata:
+      labels:
+        tier: go-calc
+    spec:
+      containers:
+      - name: go-calc
+        image: ds4tech/go-calc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: go-calc
+    tier: go-calc
+  name: go-calc
+  namespace: default
+spec:
+  ports:
+  - nodePort: 30000
+    port: 8888
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    tier: go-calc
+  type: NodePort
+status:
+  loadBalancer: {}
