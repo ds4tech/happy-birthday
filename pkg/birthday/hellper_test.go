@@ -7,30 +7,28 @@ import (
 
 
 func TestBirthdayIsIn5Days(t *testing.T) {
-	birthdayDate := time.Date(1992, 1, 15, 0, 0, 0, 0, time.UTC)
+	birthdayDate := time.Date(1992, 1, 14, 0, 0, 0, 0, time.UTC)
 	birthday := birthdayDate.Format(timeISO)
-  result := IsBirthdayIn5Days(birthday)
-	expecting := true
-  if result != expecting {
-		t.Errorf("expecting %v, got %v", expecting, result)
+  result := calculateDaysDifference(birthday)
+  if result > 5 {
+		t.Errorf("expecting anything lower than 5, got %v", result)
   }
 }
 
 func TestBirthdayIsNotIn5Days(t *testing.T) {
-	birthdayDate := time.Date(1989, 6, 30, 0, 0, 0, 0, time.UTC)
+	birthdayDate := time.Date(1989, 6, 14, 0, 0, 0, 0, time.UTC)
 	birthday := birthdayDate.Format(timeISO)
-  result := IsBirthdayIn5Days(birthday)
-	expecting := false
-  if result != expecting {
-		t.Errorf("expecting %v, got %v", expecting, result)
+  result := calculateDaysDifference(birthday)
+  if result <= 5 {
+		t.Errorf("expecting anything higher than 5, got %v", result)
   }
 }
 
 func TestTodayIsYourBirthday(t *testing.T) {
 	birthdayDate := time.Date(1999, 1, 10, 0, 0, 0, 0, time.UTC)
 	birthday := birthdayDate.Format(timeISO)
-  result := IsBirthdayIn5Days(birthday)
-	expecting := true
+  result := calculateDaysDifference(birthday)
+	expecting := 0
   if result != expecting {
 		t.Errorf("birthday is: %s", birthday)
 		t.Errorf("expecting %v, got %v", expecting, result)
