@@ -55,7 +55,6 @@ echo "export GOPATH=/var/lib/jenkins/go" >> /etc/profile
 mkdir /var/lib/jenkins/go
 chown jenkins.jenkins /var/lib/jenkins/go
 go get github.com/gorilla/mux
-go get github.com/ds4tech/pipeline-calculator-ws/pkg
 
 # clean up
 apt-get clean
