@@ -9,6 +9,14 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"time"
+	_ "math"
+	_ "strconv"
+)
+
+const (
+    layoutISO = "2006-01-02"
+    layoutUS  = "January 2, 2006"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -24,17 +32,60 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello People function")
 }
 
+func IsBirthdayIn5Days(birthday string) bool {
+	now := time.Now()
+	fmt.Println("Today:", now)
+	after := now.AddDate(0, 0, 5)
+	fmt.Println("Add 5 days:", after)
+	/*
+	day, err := strconv.Atoi(birthday[8:10])
+	if err != nil {
+		panic(err)
+	}
+	month, err := strconv.Atoi(birthday[5:7])
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("month as man.DateOfBirth: %v, day as man.DateOfBirth: %v\n", month, day)
+
+		someDate := time.Date(2010, 1, 1, 0, 0, 0, 0, time.UTC)
+		fmt.Printf("years: %v, days: %v\n", math.Floor(todayDate.Sub(someDate).Hours() / 24 / 365), math.Floor(todayDate.Sub(someDate).Hours() / 24) )
+	*/
+
+	birthdayDate, _ := time.Parse(layoutISO, birthday)
+	todayDate := time.Now()
+	byear, bmonth, bday := birthdayDate.Date()
+	tyear, tmonth, tday := todayDate.Date()
+	fmt.Printf("%v, %v\n",byear, tyear)
+	fmt.Printf("todayDate: %v,\n\tday: %v\n\tmonth: %v\n", todayDate, tday, tmonth)
+	fmt.Printf("birthdayDate: %v,\n\tday: %v\n\tmonth: %v\n", birthdayDate, bday, bmonth)
+
+	return true
+}
+
 func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	name := html.EscapeString(r.URL.Path)
 	name = name[7:]
 
 	man := RepoFindMan(name)
-	if (man == (HelloMan{}) ) {
-		fmt.Fprintf(w, "Hello, %s! Happy birthday!", name)
+	if (man != (HelloMan{}) ) {
+		dateOfToday := time.Now().Format("2006-01-02")
+
+		if (dateOfToday == man.DateOfBirth) {
+			fmt.Printf("Hello, %s! Happy birthday!\n", name)
+			fmt.Fprintf(w, "Hello, %s! Happy birthday!", name)
+		} else if ( IsBirthdayIn5Days(man.DateOfBirth) ) {
+			fmt.Printf("Hello, %s! Your birthday is in 5 days!\n", name)
+			fmt.Fprintf(w, "Hello, %s! Your birthday is in 5 days!", name)
+		} else {
+				fmt.Printf("Hello, %s!\n", name)
+				fmt.Fprintf(w, "Hello, %s!", name)
+		}
+
 	} else {
-		fmt.Fprintf(w, "Hello, %s! Your birthday is: %s", name, man.DateOfBirth)
+		fmt.Fprintf(w, "Unfortunatelly, the name '%s' is not in the database.", name)
 	}
-	w.WriteHeader(http.StatusOK)
+	//w.WriteHeader(http.StatusOK)
 }
 
 func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
