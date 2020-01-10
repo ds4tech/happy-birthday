@@ -10,8 +10,6 @@ import (
 	"net/http"
 	"sync"
 	"time"
-	_ "math"
-	_ "strconv"
 )
 
 const (
@@ -33,25 +31,6 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func IsBirthdayIn5Days(birthday string) bool {
-	now := time.Now()
-	fmt.Println("Today:", now)
-	after := now.AddDate(0, 0, 5)
-	fmt.Println("Add 5 days:", after)
-	/*
-	day, err := strconv.Atoi(birthday[8:10])
-	if err != nil {
-		panic(err)
-	}
-	month, err := strconv.Atoi(birthday[5:7])
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("month as man.DateOfBirth: %v, day as man.DateOfBirth: %v\n", month, day)
-
-		someDate := time.Date(2010, 1, 1, 0, 0, 0, 0, time.UTC)
-		fmt.Printf("years: %v, days: %v\n", math.Floor(todayDate.Sub(someDate).Hours() / 24 / 365), math.Floor(todayDate.Sub(someDate).Hours() / 24) )
-	*/
-
 	birthdayDate, _ := time.Parse(layoutISO, birthday)
 	todayDate := time.Now()
 	byear, bmonth, bday := birthdayDate.Date()
