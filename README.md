@@ -29,7 +29,7 @@ http://localhost:8888/
 ```
 docker build -t happy-birthday -f build/package/Dockerfile .
 docker run -d -p 80:8888 happy-birthday
-docker tag happy-birthday:latest ds4tech/happy-birthday:latest
+docker tag happy-birthday:latest happy-birthday:latest
 
 http://localhost/
 ```

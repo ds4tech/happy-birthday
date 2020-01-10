@@ -2,9 +2,8 @@ package birthday
 
 import (
 	"testing"
-	 "time"
+	"time"
 )
-
 
 func TestBirthdayIsIn5Days(t *testing.T) {
 	birthdayDate := time.Date(1992, 1, 14, 0, 0, 0, 0, time.UTC)
