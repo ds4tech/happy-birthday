@@ -25,14 +25,17 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func HelloSomebody(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	name := html.EscapeString(r.URL.Path)
 	name = name[7:]
 
 	man := RepoFindMan(name)
 	if (man != (HelloMan{}) ) {
 		msg := WhenIsBirthday(man.DateOfBirth, name)
-		fmt.Println(msg)
-		fmt.Fprintf(w, msg)
+		fmt.Println(msg) //log to console
+		jsonMap := map[string]string{"message": msg}
+		jsonResult, _ := json.Marshal(jsonMap)
+		fmt.Fprintf(w, string(jsonResult))
 	} else {
 		fmt.Fprintf(w, "Unfortunatelly, the name '%s' is not in the database.", name)
 	}
@@ -67,7 +70,6 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 		RepoCreateMan(helloMan, name)
 	}
 
-	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNoContent)
 	/*
 	if err := json.NewEncoder(w).Encode(t); err != nil {
