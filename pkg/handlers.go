@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"sync"
 	"time"
+	"math"
 )
 
 const (
@@ -22,24 +23,32 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello People function.\nData saved already in JSON:")
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(helloPeople); err != nil {
 		panic(err)
 	}
-	fmt.Fprintln(w, "Hello People function")
 }
 
 func IsBirthdayIn5Days(birthday string) bool {
 	birthdayDate, _ := time.Parse(layoutISO, birthday)
 	todayDate := time.Now()
-	byear, bmonth, bday := birthdayDate.Date()
-	tyear, tmonth, tday := todayDate.Date()
-	fmt.Printf("%v, %v\n",byear, tyear)
-	fmt.Printf("todayDate: %v,\n\tday: %v\n\tmonth: %v\n", todayDate, tday, tmonth)
-	fmt.Printf("birthdayDate: %v,\n\tday: %v\n\tmonth: %v\n", birthdayDate, bday, bmonth)
+	_ , bmonth, bday := birthdayDate.Date()
+	tyear , tmonth, tday := todayDate.Date()
+	dayOfBirth := time.Date(tyear, bmonth, bday, 0, 0, 0, 0, time.UTC)
+	dayOfToday := time.Date(tyear, tmonth, tday, 0, 0, 0, 0, time.UTC)
 
-	return true
+	fmt.Printf("todayDate: %v,\n\tday: %d\n\tmonth: %s\n", todayDate, tday, tmonth)
+	fmt.Printf("birthdayDate: %v,\n\tday: %d\n\tmonth: %v\n", birthdayDate, bday, bmonth)
+	daysDifference := math.Floor(dayOfBirth.Sub(dayOfToday).Hours() / 24)
+	fmt.Printf("dayOfBirth is in days: %v\n", daysDifference)
+
+	if( daysDifference <=5 ) {
+		return true
+	} else {
+		return false
+	}
 }
 
 func HelloSomebody(w http.ResponseWriter, r *http.Request) {
