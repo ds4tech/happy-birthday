@@ -41,7 +41,7 @@ pipeline {
       steps {
         println "[INFO]..........Run unit tests.............."
         script {
-          dir("pkg") {
+          dir("pkg/birthday") {
                sh "set -x; go test"
           }
              sh """
