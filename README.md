@@ -21,10 +21,14 @@ Description: Return a hello/birthday message for the given user <br>
   Request: GET /hello/Morty <br>
   Response: 200 OK <br>
 
-a. when Morty’s birthday is in 5 days:
-```{ "message": "Hello, Morty! Your birthday is in 5 days" }```
-b. when Morty's birthday is today:
-```{ "message": "Hello, Morty! Happy birthday" }```
+a. when Morty’s birthday is in 5 days:<br>
+```
+{ "message": "Hello, Morty! Your birthday is in 5 days" }
+```
+b. when Morty's birthday is today: <br>
+```
+{ "message": "Hello, Morty! Happy birthday" }
+```
 
 ## BUILD <a name="build"></a>
 
