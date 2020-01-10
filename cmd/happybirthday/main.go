@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ds4tech/happy-birthday/pkg"
+	"github.com/ds4tech/happy-birthday/pkg/birthday"
 )
 
 
