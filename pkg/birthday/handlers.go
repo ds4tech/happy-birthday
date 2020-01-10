@@ -30,18 +30,9 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 
 	man := RepoFindMan(name)
 	if (man != (HelloMan{}) ) {
-
-		if ( IsBirthdayToday(man.DateOfBirth) ) {
-			fmt.Printf("Hello, %s! Happy birthday!\n", name)
-			fmt.Fprintf(w, "Hello, %s! Happy birthday!", name)
-		} else if ( IsBirthdayIn5Days(man.DateOfBirth) ) {
-			fmt.Printf("Hello, %s! Your birthday is in 5 days!\n", name)
-			fmt.Fprintf(w, "Hello, %s! Your birthday is in 5 days!", name)
-		} else {
-				fmt.Printf("Hello, %s!\n", name)
-				fmt.Fprintf(w, "Hello, %s!", name)
-		}
-
+		msg := WhenIsBirthday(man.DateOfBirth, name)
+		fmt.Println(msg)
+		fmt.Fprintf(w, msg)
 	} else {
 		fmt.Fprintf(w, "Unfortunatelly, the name '%s' is not in the database.", name)
 	}

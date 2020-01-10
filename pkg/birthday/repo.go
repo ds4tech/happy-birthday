@@ -15,7 +15,6 @@ func RepoCreateMan(man HelloMan, name string) HelloMan {
 }
 
 func RepoUpdateMan(birthday string, name string) {
-	fmt.Println("update action on the way")
 	for i, it := range helloPeople {
 		if it.Name == name {
 			helloPeople[i].DateOfBirth = birthday
