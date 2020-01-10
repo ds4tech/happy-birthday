@@ -13,11 +13,11 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Todo List:, %q", html.EscapeString(r.URL.Path))
+	fmt.Fprintf(w, "Happy Birthday service")
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello People function.\nData saved already in JSON:")
+	fmt.Fprintln(w, "Hello People function.\nData saved already in JSON:\n")
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(helloPeople); err != nil {
@@ -71,7 +71,13 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	name := html.EscapeString(r.URL.Path)
 	name = name[7:]
 
-	RepoCreateMan(helloMan, name)
+	man := RepoFindMan(name)
+	if (man != (HelloMan{}) ) {
+		RepoUpdateMan(helloMan, name)
+	} else {
+		RepoCreateMan(helloMan, name)
+	}
+
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNoContent)
 	/*

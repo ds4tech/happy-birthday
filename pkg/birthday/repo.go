@@ -6,12 +6,24 @@ var currentId int
 var helloPeople HelloPeople
 
 
-func RepoCreateMan(t HelloMan, name string) HelloMan {
+func RepoCreateMan(man HelloMan, name string) HelloMan {
 	currentId += 1
-	t.Id = currentId
-	t.Name = name
-	helloPeople = append(helloPeople, t)
-	return t
+	man.Id = currentId
+	man.Name = name
+	helloPeople = append(helloPeople, man)
+	return man
+}
+
+func RepoUpdateMan(man HelloMan, name string) {
+	fmt.Println("update action on the way")
+	for _, it := range helloPeople {
+		if it.Name == name {
+			fmt.Println("found", name)
+			it.DateOfBirth = man.DateOfBirth
+			//todo
+			//update object in the table
+		}
+	}
 }
 
 func RepoFindMan(name string) HelloMan {
