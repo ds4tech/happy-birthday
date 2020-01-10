@@ -31,3 +31,24 @@ func IsBirthdayIn5Days(birthday string) bool {
 		return false
 	}
 }
+
+func IsBirthdayToday(birthday string) bool {
+	birthdayDate, _ := time.Parse(timeISO, birthday)
+	todayDate := time.Now()
+	_ , bmonth, bday := birthdayDate.Date()
+	tyear , tmonth, tday := todayDate.Date()
+
+	dayOfBirth := time.Date(tyear, bmonth, bday, 0, 0, 0, 0, time.UTC)
+	dayOfToday := time.Date(tyear, tmonth, tday, 0, 0, 0, 0, time.UTC)
+	//log.Printf("\ntodayDate: %v,\n\tday: %d\n\tmonth: %s\n", todayDate, tday, tmonth)
+	//log.Printf("\nbirthdayDate: %v,\n\tday: %d\n\tmonth: %v\n", birthdayDate, bday, bmonth)
+
+	daysDifference := math.Floor(dayOfBirth.Sub(dayOfToday).Hours() / 24)
+
+	if( daysDifference == 0 ) {
+		return true
+	} else {
+		log.Printf("dayOfBirth is in %v days\n", daysDifference)
+		return false
+	}
+}

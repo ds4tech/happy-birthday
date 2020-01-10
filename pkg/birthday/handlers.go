@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 	"sync"
 )
 
@@ -31,9 +30,8 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 
 	man := RepoFindMan(name)
 	if (man != (HelloMan{}) ) {
-		dateOfToday := time.Now().Format(timeISO)
 
-		if (dateOfToday == man.DateOfBirth) {
+		if ( IsBirthdayToday(man.DateOfBirth) ) {
 			fmt.Printf("Hello, %s! Happy birthday!\n", name)
 			fmt.Fprintf(w, "Hello, %s! Happy birthday!", name)
 		} else if ( IsBirthdayIn5Days(man.DateOfBirth) ) {
@@ -73,7 +71,7 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 
 	man := RepoFindMan(name)
 	if (man != (HelloMan{}) ) {
-		RepoUpdateMan(helloMan, name)
+		RepoUpdateMan(helloMan.DateOfBirth, name)
 	} else {
 		RepoCreateMan(helloMan, name)
 	}

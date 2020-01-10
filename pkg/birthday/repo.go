@@ -14,22 +14,19 @@ func RepoCreateMan(man HelloMan, name string) HelloMan {
 	return man
 }
 
-func RepoUpdateMan(man HelloMan, name string) {
+func RepoUpdateMan(birthday string, name string) {
 	fmt.Println("update action on the way")
-	for _, it := range helloPeople {
+	for i, it := range helloPeople {
 		if it.Name == name {
-			fmt.Println("found", name)
-			it.DateOfBirth = man.DateOfBirth
-			//todo
-			//update object in the table
+			helloPeople[i].DateOfBirth = birthday
 		}
 	}
 }
 
 func RepoFindMan(name string) HelloMan {
-	for _, t := range helloPeople {
-		if t.Name == name {
-			return t
+	for _, man := range helloPeople {
+		if man.Name == name {
+			return man
 		}
 	}
 	return HelloMan{}
