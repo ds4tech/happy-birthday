@@ -1,5 +1,16 @@
 # happy-birthday
 
+1. [Introduction](#intro)
+2. [Build](#build) <br>
+   2.1. [Exec](#build.exe) <br>
+   2.2. [Docker](#build.docker)
+3. [Deploy](#deploy) <br>
+ 3.1. [Kubernetes](#deploy.k8s) <br>
+ 3.2. [AWS ECS](#deploy.ecs)
+4. [Usage](#usage)
+5. [Continous Integration](#ci)
+
+
 ## Introduction <a name="intro"></a>
 
 Description: Saves/updates the given user's name and date of birth in the database
@@ -22,7 +33,7 @@ b. when Morty's birthday is today:
 go build -o main cmd/happybirthday/main.go
 ./main
 
-http://localhost:8888/
+curl http://localhost:8888/
 ```
 
 ### Docker container <a name="build.docker"></a>
@@ -31,5 +42,27 @@ docker build -t happy-birthday -f build/package/Dockerfile .
 docker run -d -p 80:8888 happy-birthday
 docker tag happy-birthday:latest happy-birthday:latest
 
-http://localhost/
+curl http://localhost/
+```
+
+## DEPLOY <a name="deploy"></a>
+
+### Kubernetes <a name="deploy.k8s"></a>
+```
+kubectl create -f deployments/kubernetes/k8s-replicaSet.yml
+
+curl http://192.168.99.100:30000/
+```
+
+### AWS ECS <a name="deploy.ecs"></a>
+```
+cd deployments/aws/ecs
+terraform init
+terraform apply
+//copy output: repository url
+cd ../../../
+$(aws ecr get-login --no-include-email --region eu-west-1)
+docker build -t happy-birthday .
+docker tag happy-birthday:latest 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:latest
+docker push 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:latest
 ```
