@@ -1,0 +1,75 @@
+
+def project_name = "happy-birthday"
+
+pipeline {
+ agent {
+  label 'master'
+ }
+
+ stages {
+
+   stage('Checkout code from SCM') {
+    steps {
+     println "[INFO]...........................................................................................\
+            \n[INFO].. Pipeline for automating build of this miscroservice..\
+            \n[INFO]..........................................................................................."
+     git([url: 'https://github.com/ds4tech/happy-birthday.git', branch: 'master'])
+     }
+    }
+
+    stage('Build') {
+      steps {
+        println "[INFO]..........Build.............."
+        script {
+             sh "set -x; go build -o ${project_name} cmd/happybirthday/main.go"
+        }
+      }
+    }
+
+    stage('Launch application') {
+      steps {
+       script{
+          withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+            sh "./${project_name} &"
+           }
+       }
+       println "[INFO]..........Application started.............."
+     }
+    }
+
+    stage('Run Unit tests') {
+      steps {
+        println "[INFO]..........Run unit tests.............."
+        script {
+          dir("pkg") {
+               sh "set -x; go test"
+          }
+             sh """
+              set -x;
+              kill \$(ps aux | grep ${project_name} | head -n 1 | awk '{print \$2}')
+             """
+        }
+        println "[INFO]..........Application stopped.............."
+      }
+     }
+
+    stage('Push to articaftory') {
+     steps {
+
+      println "[INFO]..........Push to articaftory.............."
+
+      script {
+             sh "set -x; tar -cvf ${project_name}-${env.BUILD_NUMBER}.tar.gz *"
+             }
+      }
+     }
+
+ } //end stages
+
+ post {
+   cleanup {
+       cleanWs()
+   }
+ }
+
+} //end pipeline
