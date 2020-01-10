@@ -13,18 +13,18 @@
 
 ## Introduction <a name="intro"></a>
 
-Description: Saves/updates the given user's name and date of birth in the database
-  Request: PUT /hello/Morty { "dateOfBirth": "2000-01-01" }
-  Response: 204 No Content
+Description: Saves/updates the given user's name and date of birth in the database <br>
+  Request: PUT /hello/Morty { "dateOfBirth": "2000-01-01" } <br>
+  Response: 204 No Content <br>
 
-Description: Return a hello/birthday message for the given user
-  Request: GET /hello/Morty
-  Response: 200 OK
+Description: Return a hello/birthday message for the given user <br>
+  Request: GET /hello/Morty <br>
+  Response: 200 OK <br>
 
 a. when Morty’s birthday is in 5 days:
-{ "message": "Hello, Morty! Your birthday is in 5 days" }
+```{ "message": "Hello, Morty! Your birthday is in 5 days" }```
 b. when Morty's birthday is today:
-{ "message": "Hello, Morty! Happy birthday" }
+```{ "message": "Hello, Morty! Happy birthday" }```
 
 ## BUILD <a name="build"></a>
 
