@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: go-calc
+  name: happy-birthday
   labels:
-    app: go-calc
-    tier: go-calc
+    app: happy-birthday
+    tier: happy-birthday
 spec:
   replicas: 2
   selector:
     matchLabels:
-      tier: go-calc
+      tier: happy-birthday
   template:
     metadata:
       labels:
-        tier: go-calc
+        tier: happy-birthday
     spec:
       containers:
-      - name: go-calc
-        image: ds4tech/go-calc
+      - name: happy-birthday
+        image: ds4tech/happy-birthday
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: go-calc
-    tier: go-calc
-  name: go-calc
+    app: happy-birthday
+    tier: happy-birthday
+  name: happy-birthday
   namespace: default
 spec:
   ports:
@@ -34,7 +34,7 @@ spec:
     protocol: TCP
     targetPort: 8888
   selector:
-    tier: go-calc
+    tier: happy-birthday
   type: NodePort
 status:
   loadBalancer: {}
