@@ -24,7 +24,7 @@ func TestBirthdayIsNotIn5Days(t *testing.T) {
 }
 
 func TestTodayIsYourBirthday(t *testing.T) {
-	birthdayDate := time.Date(1999, 1, 10, 0, 0, 0, 0, time.UTC)
+	birthdayDate := time.Now()
 	birthday := birthdayDate.Format(timeISO)
   result := calculateDaysDifference(birthday)
 	expecting := 0
