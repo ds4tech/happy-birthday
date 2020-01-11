@@ -6,3 +6,6 @@ output "app-ip" {
   value = [aws_instance.app-instance.*.public_ip]
 }
 
+output "elb" {
+  value = aws_elb.myapp-elb.dns_name
+}
