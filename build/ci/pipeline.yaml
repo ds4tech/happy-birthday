@@ -60,11 +60,9 @@ pipeline {
 
       script {
              //sh "set -x; tar -cvf ${project_name}-${env.BUILD_NUMBER}.tar.gz *"
-             sh """
-              docker build -t 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:${BUILD_NUMBER} -f build/package/Dockerfile .
-              eval "$(aws ecr get-login --no-include-email --region eu-west-1)"
-              docker push 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:${BUILD_NUMBER}
-             """
+             sh "set -x; docker build -t 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:${env.BUILD_NUMBER} -f build/package/Dockerfile . "
+             sh "eval '\$(aws ecr get-login --no-include-email --region eu-west-1)' "
+             sh "set -x; docker push 311744426619.dkr.ecr.eu-west-1.amazonaws.com/happy-birthday:${env.BUILD_NUMBER} "
              }
       }
      }
