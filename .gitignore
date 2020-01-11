@@ -1,11 +1,11 @@
 tmp
 main
-deployments/aws/jenkins-ec2_instance/terraform.tfstate
-deployments/aws/jenkins-ec2_instance/terraform.tfstate.backup
-deployments/aws/jenkins-ec2_instance/.terraform/
-deployments/aws/jenkins-ec2_instance/.terraform.tfstate.lock.info
-deployments/aws/jenkins-ec2_instance/mykey
-deployments/aws/jenkins-ec2_instance/mykey.pub
+deployments/aws/ecs-jenkins/terraform.tfstate
+deployments/aws/ecs-jenkins/terraform.tfstate.backup
+deployments/aws/ecs-jenkins/.terraform/
+deployments/aws/ecs-jenkins/.terraform.tfstate.lock.info
+deployments/aws/ecs-jenkins/mykey
+deployments/aws/ecs-jenkins/mykey.pub
 deployments/aws/ecs/terraform.tfstate
 deployments/aws/ecs/terraform.tfstate.backup
 deployments/aws/ecs/.terraform/
