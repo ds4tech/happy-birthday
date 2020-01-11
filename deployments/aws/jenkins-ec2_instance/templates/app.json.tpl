@@ -4,7 +4,7 @@
     "memory": 256,
     "name": "happy-birthday",
     "cpu": 256,
-    "image": "${REPOSITORY_URL}:latest",
+    "image": "${REPOSITORY_URL}:${APP_VERSION}",
     "workingDirectory": "/app",
     "command": ["./main"],
     "portMappings": [
