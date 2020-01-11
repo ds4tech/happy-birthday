@@ -12,7 +12,7 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Happy Birthday SERVICE")
+	fmt.Fprintf(w, "Happy Birthday service")
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
