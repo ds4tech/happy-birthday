@@ -9,7 +9,7 @@
  4.1. [Kubernetes](#deploy.k8s) <br>
  4.2. [AWS ECS](#deploy.ecs)
 5. [Continous Integration](#ci)
-6. [Continous Deployment](#cd)
+6. [Continous Deployment](#cd) <br>
    6.1. [Manual](#cd.manual) <br>
    6.2. [Automatic](#cd.automatic)
 
@@ -59,7 +59,7 @@ curl http://localhost/
 ### Kubernetes <a name="deploy.k8s"></a>
 It is required to first build the image and push it to any container repository. <br>
 Second step is to update yaml file k8s-replicaSet.yml in line 20 and change repository name from ds4tech to the one where docker image has been uploaded.
-
+Once this is done, pods can be created by following command.
 ```
 kubectl create -f deployments/kubernetes/k8s-replicaSet.yml
 
@@ -67,6 +67,7 @@ curl http://192.168.99.100:30000/
 ```
 
 ### AWS ECS <a name="deploy.ecs"></a>
+Provide AWS credentials by running following command. The run Terraform.
 ```
 $(aws ecr get-login --no-include-email --region eu-west-1)
 cd deployments/aws/ecs-jenkins
@@ -89,7 +90,7 @@ cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 Open web browser and go to http://output_ip:8080/
 
-Copy a jenkins initialAdminPassword and pass it to web browser. Click install sugested plugins.
+Copy jenkins initialAdminPassword and pass it to web browser. Click install sugested plugins.
 
 Jenkins is now set up and ready to run jobs.
 
@@ -104,8 +105,8 @@ Then create new pipeline job, name it build-docker-image and paste updated code 
 After completion of previous steps the code can be deployed in two ways.
 
 ### CD - manual <a name="cd.manual"></a>
-Update ```myapp-vars.tf```, set MYAPP_SERVICE_ENABLE=1 and MYAPP_VERSION=build_number of last succeful build from jenkins.
-
+Update ```myapp-vars.tf```, set MYAPP_SERVICE_ENABLE=1 and set MYAPP_VERSION=build_number to last succeful build from jenkins.
+This will create new revision of task definition, and a new task from it.
 
 ### CD - automatic <a name="cd.automatic"></a>
-Create new pipeline job, name it deploy-docker-image and paste code from aws/ecs-jenkins/deploy/pipeline.yaml
+Create new pipeline job, name it deploy-docker-image and paste code from [aws/ecs-jenkins/deploy/pipeline.yaml](https://github.com/ds4tech/happy-birthday/blob/master/deployments/aws/ecs-jenkins/deploy/pipeline.yaml).
