@@ -55,7 +55,7 @@ docker tag happy-birthday:latest happy-birthday:latest
 curl http://localhost/
 ```
 
-## Unit Tests <a name="build"></a>
+## Unit Tests <a name="unittest"></a>
 
 To run unit tests run following command inside folder pkg/birthday.
 ```
