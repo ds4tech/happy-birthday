@@ -5,13 +5,14 @@
 3. [Build](#build) <br>
    3.1. [Exec](#build.exe) <br>
    3.2. [Docker](#build.docker)
-4. [Deploy](#deploy) <br>
- 4.1. [Kubernetes](#deploy.k8s) <br>
- 4.2. [AWS ECS](#deploy.ecs)
-5. [Continous Integration](#ci)
-6. [Continous Deployment](#cd) <br>
-   6.1. [Manual](#cd.manual) <br>
-   6.2. [Automatic](#cd.automatic)
+4. [Unit Tests](#unittest) <br>
+5. [Deploy](#deploy) <br>
+ 5.1. [Kubernetes](#deploy.k8s) <br>
+ 5.2. [AWS ECS](#deploy.ecs)
+6. [Continous Integration](#ci)
+7. [Continous Deployment](#cd) <br>
+   7.1. [Manual](#cd.manual) <br>
+   7.2. [Automatic](#cd.automatic)
 
 
 ## Introduction <a name="intro"></a>
@@ -54,6 +55,13 @@ docker tag happy-birthday:latest happy-birthday:latest
 curl http://localhost/
 ```
 
+## Unit Tests <a name="build"></a>
+
+To run unit tests run following command inside folder pkg/birthday.
+```
+cd pkg/birthday
+go test
+```
 ## DEPLOY <a name="deploy"></a>
 
 ### Kubernetes <a name="deploy.k8s"></a>
@@ -67,7 +75,7 @@ curl http://192.168.99.100:30000/
 ```
 
 ### AWS ECS <a name="deploy.ecs"></a>
-Provide AWS credentials by running following command. The run Terraform.
+Provide AWS credentials by running following command. Then run Terraform.
 ```
 $(aws ecr get-login --no-include-email --region eu-west-1)
 cd deployments/aws/ecs-jenkins
