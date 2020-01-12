@@ -52,6 +52,7 @@ curl http://localhost/
 ## DEPLOY <a name="deploy"></a>
 
 ### Kubernetes <a name="deploy.k8s"></a>
+It is required to first build te image, push it to repository and update yalm file.
 ```
 kubectl create -f deployments/kubernetes/k8s-replicaSet.yml
 
