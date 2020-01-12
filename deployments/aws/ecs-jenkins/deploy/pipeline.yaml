@@ -1,0 +1,45 @@
+
+def project_name = "happy-birthday"
+
+pipeline {
+ agent {
+  label 'master'
+ }
+
+ stages {
+
+   stage('Checkout code from SCM') {
+    steps {
+     println "[INFO]...........................................................................................\
+            \n[INFO].. Pipeline for automating build of this miscroservice..\
+            \n[INFO]..........................................................................................."
+     git([url: 'https://github.com/ds4tech/happy-birthday.git', branch: 'master'])
+     }
+    }
+
+    stage('Deploy') {
+      steps {
+        println "[INFO]..........Deploy using terraform.............."
+        script {
+          dir("deployments/aws/ecs-jenkins") {
+               sh "set -x; go test"
+          }
+             sh """
+              set -x;
+              terraform apply -target awc_ecs_service.myapp-service -var MYAPP_VERSION=\${MYAPP_VERSION} -var MYAPP_SERVICE_ENABLE="1"
+             """
+        }
+        println "[INFO]..........Application stopped.............."
+      }
+     }
+
+
+ } //end stages
+
+ post {
+   cleanup {
+       cleanWs()
+   }
+ }
+
+} //end pipeline
