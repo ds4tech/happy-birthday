@@ -5,7 +5,9 @@ pipeline {
  agent {
   label 'master'
  }
-
+parameters {
+        string(defaultValue: '1', description: '', name: 'MYAPP_VERSION')
+    }
  stages {
 
    stage('Checkout code from SCM') {
@@ -16,20 +18,33 @@ pipeline {
      git([url: 'https://github.com/ds4tech/happy-birthday.git', branch: 'master'])
      }
     }
-
+    stage('Init') {
+      steps {
+        println "[INFO]..........Init terraform.............."
+        script {
+          dir("deployments/aws/ecs-jenkins/scripts") {
+             sh """
+              set -x;
+              terraform init;
+             """
+          }
+        }
+      }
+     }
     stage('Deploy') {
       steps {
         println "[INFO]..........Deploy using terraform.............."
         script {
           dir("deployments/aws/ecs-jenkins") {
-               sh "set -x; go test"
-          }
              sh """
               set -x;
+              touch mykey;
+              touch mykey.pub;
+              terraform init;
               terraform apply -target awc_ecs_service.myapp-service -var MYAPP_VERSION=\${MYAPP_VERSION} -var MYAPP_SERVICE_ENABLE="1"
              """
+          }
         }
-        println "[INFO]..........Application stopped.............."
       }
      }
 
