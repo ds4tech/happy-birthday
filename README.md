@@ -17,6 +17,8 @@
 
 ## Introduction <a name="intro"></a>
 
+This application provides a simple microservice which saves user data: name and date of birth. The user data can then be fetched. The "Happy birthday" wishes will be returned depending on today's date. The application is not initialized with any data, so some PUT actions have to be run first. 
+
 ## USEAGE <a name="usage"></a>
 
 Description: Saves/updates the given user's name and date of birth in the database <br>
@@ -62,6 +64,7 @@ To run unit tests run following command inside folder pkg/birthday.
 cd pkg/birthday
 go test
 ```
+
 ## DEPLOY <a name="deploy"></a>
 
 ### Kubernetes <a name="deploy.k8s"></a>
