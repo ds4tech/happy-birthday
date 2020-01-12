@@ -25,3 +25,9 @@ apt-get install -y kubelet kubeadm kubectl
 
 echo '1' > /proc/sys/net/ipv4/ip_forward
 modprobe br_netfilter
+
+apt-get install docker.io
+service docker start
+
+#kubeadm reset
+#kubeadm join …

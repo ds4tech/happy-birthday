@@ -6,6 +6,8 @@
 ./install-kubernetes.sh
 ./create-user.sh
 ```
+One this script is finished, copy an output and run the command on the node:
+```kubeadm join ...```
 
 ## Scripts to run on Node's
 

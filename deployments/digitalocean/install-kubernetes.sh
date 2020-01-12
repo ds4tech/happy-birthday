@@ -26,6 +26,9 @@ apt-get install -y kubelet kubeadm kubectl
 echo '1' > /proc/sys/net/ipv4/ip_forward
 modprobe br_netfilter
 
+apt-get install docker.io
+service docker start
+
 # DigitalOcean without firewall (IP-in-IP allowed) - or any other cloud / on-prem that supports IP-in-IP traffic
 # echo "deploying kubernetes (with calico)..."
 # kubeadm init --pod-network-cidr=192.168.0.0/16 # add --apiserver-advertise-address="ip" if you want to use a different IP address than the main server IP
