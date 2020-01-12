@@ -17,7 +17,7 @@
 
 ## Introduction <a name="intro"></a>
 
-This application provides a simple microservice which saves user data: name and date of birth. The user data can then be fetched. The "Happy birthday" wishes will be returned depending on today's date. The application is not initialized with any data, so some PUT actions have to be run first. 
+This application provides a simple microservice which saves user data: name and date of birth. The user data can then be fetched. The "Happy birthday" wishes will be returned depending on today's date. The application is not initialized with any data, so some PUT actions have to be run first.
 
 ## USEAGE <a name="usage"></a>
 
@@ -118,6 +118,10 @@ After completion of previous steps the code can be deployed in two ways.
 ### CD - manual <a name="cd.manual"></a>
 Update ```myapp-vars.tf```, set MYAPP_SERVICE_ENABLE=1 and set MYAPP_VERSION=build_number to last succeful build from jenkins.
 This will create new revision of task definition, and a new task from it.
+Then run terraform again.
+```
+terraform apply
+```
 
 ### CD - automatic <a name="cd.automatic"></a>
 Create new pipeline job, name it deploy-docker-image and paste code from [aws/ecs-jenkins/deploy/pipeline.yaml](https://github.com/ds4tech/happy-birthday/blob/master/deployments/aws/ecs-jenkins/deploy/pipeline.yaml).
