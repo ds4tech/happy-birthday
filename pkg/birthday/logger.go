@@ -1,12 +1,28 @@
 package birthday
 
 import (
-	"log"
+	"os"
 	"net/http"
 	"time"
+  log "github.com/sirupsen/logrus"
 )
 
 func Logger(inner http.Handler, name string) http.Handler {
+//
+// log to File
+	file, err := os.OpenFile("info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+//			log.Fatal(err)
+				log.WithFields(log.Fields{
+			    "omg":    true,
+			    "number": 100,
+			}).Fatal("The ice breaks!")
+	}
+	log.SetOutput(file)
+	log.Print("Logging to a file in Go!")
+
+// end
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
@@ -19,5 +35,7 @@ func Logger(inner http.Handler, name string) http.Handler {
 			name,
 			time.Since(start),
 		)
+
+			defer file.Close()
 	})
 }
