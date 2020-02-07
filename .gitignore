@@ -1,5 +1,6 @@
 tmp
 main
+info.log
 deployments/aws/ecs-jenkins/terraform.tfstate
 deployments/aws/ecs-jenkins/terraform.tfstate.backup
 deployments/aws/ecs-jenkins/.terraform/

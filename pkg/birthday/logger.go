@@ -19,7 +19,8 @@ func Logger(inner http.Handler, name string) http.Handler {
 			}).Fatal("The ice breaks!")
 	}
 	log.SetOutput(file)
-	log.Print("Logging to a file in Go!")
+	log.SetFormatter(&log.JSONFormatter{})
+	log.Print("Logging to a file.!")
 
 // end
 
