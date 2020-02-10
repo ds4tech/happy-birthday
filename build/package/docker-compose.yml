@@ -9,14 +9,14 @@ services:
       - 80:80
       - 443:443
     networks:
-      - app-network
+      - host
 
   happy-birthday:
     image: happy-birthday:latest
     ports:
       - "8080:8888"
     networks:
-      - app-network
+      - host
 
 #MySQL Service
   # db:
@@ -38,5 +38,4 @@ services:
 
 #Docker Networks
 networks:
-  app-network:
-    driver: bridge
+  host:
