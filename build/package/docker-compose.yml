@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: prod_nginx
+    volumes:
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - app-network
+
+  happy-birthday:
+    image: happy-birthday:latest
+    ports:
+      - "8080:8888"
+    networks:
+      - app-network
+
+#MySQL Service
+  # db:
+  #   image: mysql:latest
+  #   container_name: db
+  #   restart: unless-stopped
+  #   tty: true
+  #   volumes:
+  #     - /Users/zwierzak/target:/var/lib/mysql
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_DATABASE: items
+  #     MYSQL_ROOT_PASSWORD: secret
+  #     SERVICE_TAGS: dev
+  #     SERVICE_NAME: mysql
+  #   networks:
+  #     - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
