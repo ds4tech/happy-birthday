@@ -9,7 +9,7 @@ services:
       - 80:80
       - 443:443
     networks:
-      - host
+      - app-network
     restart: always
 
   happy-birthday:
@@ -19,7 +19,7 @@ services:
     depends_on:
         - nginx
     networks:
-      - host
+      - app-network
     restart: always
 
 #MySQL Service
@@ -42,4 +42,4 @@ services:
 
 #Docker Networks
 networks:
-  host:
+  app-network:
