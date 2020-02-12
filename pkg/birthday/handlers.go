@@ -16,12 +16,16 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello People function.\nData saved already in JSON:")
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(helloPeople); err != nil {
+	fmt.Fprintf(w, `{"msg": Hello People}`)
+	// prints list of people
+	/*
+	fmt.Fprintln(w, "Hello People function.\nData already saved:")
+ 	if err := json.NewEncoder(w).Encode(helloPeople); err != nil {
 		panic(err)
 	}
+	*/
 }
 
 func HelloSomebody(w http.ResponseWriter, r *http.Request) {
