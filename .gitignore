@@ -1,6 +1,7 @@
 tmp
 main
 info.log
+pkg/birthday/cover.out
 deployments/aws/ecs-jenkins/terraform.tfstate
 deployments/aws/ecs-jenkins/terraform.tfstate.backup
 deployments/aws/ecs-jenkins/.terraform/

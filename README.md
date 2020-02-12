@@ -65,6 +65,12 @@ cd pkg/birthday
 go test
 ```
 
+or to measure test coverage running
+```
+go test -coverprofile=cover.out
+go tool cover -html=cover.out
+```
+
 ## DEPLOY <a name="deploy"></a>
 
 ### Kubernetes <a name="deploy.k8s"></a>
