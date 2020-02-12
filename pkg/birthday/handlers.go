@@ -18,6 +18,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func Hello(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+
 	fmt.Fprintf(w, `{"msg": Hello People}`)
 	// prints list of people
 	/*
@@ -30,6 +31,8 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 
 func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
 	name := html.EscapeString(r.URL.Path)
 	name = name[7:]
 
@@ -41,9 +44,8 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 		jsonResult, _ := json.Marshal(jsonMap)
 		fmt.Fprintf(w, string(jsonResult))
 	} else {
-		fmt.Fprintf(w, "Unfortunatelly, the name '%s' is not in the database.", name)
+		fmt.Fprintf(w, `{"msg": Unfortunatelly, name '%s' is not in the database.}`, name)
 	}
-	//w.WriteHeader(http.StatusOK)
 }
 
 func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
