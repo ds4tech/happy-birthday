@@ -33,3 +33,14 @@ func TestTodayIsYourBirthday(t *testing.T) {
 		t.Errorf("expecting %v, got %v", expecting, result)
   }
 }
+
+func TestWhenIsBirthday(t *testing.T) {
+	birthdayDate := time.Now()//Date(1992, 2, 14, 0, 0, 0, 0, time.UTC)
+	birthday := birthdayDate.Format(timeISO)
+	result :=  WhenIsBirthday(birthday, "John")
+	expected := "Hello, John! Happy birthday!"
+	//expected := "Hello, John! Your birthday is in 5 days!"
+	if result != expected {
+		t.Errorf("Expected: \n%v, got \n%v", expected, result)
+  }
+}
