@@ -4,7 +4,6 @@ import (
     "net/http"
     "net/http/httptest"
     "testing"
-    _ "io"
 )
 
 func TestIndex(t *testing.T) {
