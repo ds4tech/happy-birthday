@@ -11,7 +11,7 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
-	fmt.Fprintf(w, `{"msg": Happy Birthday Service!!!}`)
+	fmt.Fprintf(w, `{"msg": Happy Birthday Service!}`)
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
