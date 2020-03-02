@@ -59,16 +59,4 @@ var routes = Routes{
 		SaveSmbsName,
 	},
 
-	Route{
-		"Count",
-		"GET",
-		"/count",
-		Counter,
-	},
-	Route{
-		"Parser",
-		"GET",
-		"/parse",
-		Parser,
-	},
 }

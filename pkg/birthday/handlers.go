@@ -6,13 +6,12 @@ import (
 	"html"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
-	"sync"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Happy Birthday Service!!!")
+	w.Header().Set("content-Type", "application/json; charset=UTF-8")
+	fmt.Fprintf(w, `{"msg": Happy Birthday Service!!!}`)
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
@@ -82,29 +81,4 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	*/
-}
-
-var mu sync.Mutex
-var count int
-
-func Counter(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	count++
-	fmt.Fprintf(w, "Number of request equals: %d\n", count)
-	mu.Unlock()
-}
-
-func Parser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "%s %s %s\n", r.Method, r.URL, r.Proto)
-	for k, v := range r.Header {
-		fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-	}
-	fmt.Fprintf(w, "Host = %q\n", r.Host)
-	fmt.Fprintf(w, "RemoteAddr = %q\n", r.RemoteAddr)
-	if err := r.ParseForm(); err != nil {
-		log.Print(err)
-	}
-	for k, v := range r.Form {
-		fmt.Fprintf(w, "Form[%q] = %q\n", k, v)
-	}
 }

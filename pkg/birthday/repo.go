@@ -14,12 +14,14 @@ func RepoCreateMan(man HelloMan, name string) HelloMan {
 	return man
 }
 
-func RepoUpdateMan(birthday string, name string) {
+func RepoUpdateMan(birthday string, name string) bool {
 	for i, it := range helloPeople {
 		if it.Name == name {
 			helloPeople[i].DateOfBirth = birthday
+			return true
 		}
 	}
+	return false
 }
 
 func RepoFindMan(name string) HelloMan {
