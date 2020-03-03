@@ -11,14 +11,14 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
-	fmt.Fprintf(w, `{"msg": Happy Birthday Service!}`)
+	fmt.Fprintf(w, `{"msg": "Happy Birthday Service!"}`)
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
-	fmt.Fprintf(w, `{"msg": Hello People}`)
+	fmt.Fprintf(w, `{"msg": "Hello People!"}`)
 	// prints list of people
 	/*
 			fmt.Fprintln(w, "Hello People function.\nData already saved:")
@@ -39,11 +39,11 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	if man != (HelloMan{}) {
 		msg := WhenIsBirthday(man.DateOfBirth, name)
 		//fmt.Println(msg) //log to console
-		jsonMap := map[string]string{"message": msg}
+		jsonMap := map[string]string{"msg": msg}
 		jsonResult, _ := json.Marshal(jsonMap)
 		fmt.Fprintf(w, string(jsonResult))
 	} else {
-		fmt.Fprintf(w, `{"msg": "Unfortunatelly, name '%s' is not in the database."}`, name)
+		fmt.Fprintf(w, `{"msg":"Unfortunatelly, name '%s' is not in the database."}`, name)
 	}
 }
 
