@@ -38,12 +38,12 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	man := RepoFindMan(name)
 	if man != (HelloMan{}) {
 		msg := WhenIsBirthday(man.DateOfBirth, name)
-		fmt.Println(msg) //log to console
+		//fmt.Println(msg) //log to console
 		jsonMap := map[string]string{"message": msg}
 		jsonResult, _ := json.Marshal(jsonMap)
 		fmt.Fprintf(w, string(jsonResult))
 	} else {
-		fmt.Fprintf(w, `{"msg": Unfortunatelly, name '%s' is not in the database.}`, name)
+		fmt.Fprintf(w, `{"msg": "Unfortunatelly, name '%s' is not in the database."}`, name)
 	}
 }
 
@@ -67,9 +67,9 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 
 	man := RepoFindMan(name)
 	if man != (HelloMan{}) {
-		RepoUpdateMan(helloMan.DateOfBirth, name)
+		RepoUpdateMan(name, helloMan.DateOfBirth)
 	} else {
-		RepoCreateMan(name)
+		RepoCreateMan(name, helloMan.DateOfBirth)
 	}
 
 	w.WriteHeader(http.StatusNoContent)

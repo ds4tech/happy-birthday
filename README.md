@@ -1,5 +1,4 @@
 # happy-birthday
-test
 
 1. [Introduction](#intro)
 2. [Usage](#usage)

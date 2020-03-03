@@ -5,16 +5,17 @@ import "fmt"
 var currentId int
 var helloPeople HelloPeople
 
-func RepoCreateMan(name string) HelloMan {
+func RepoCreateMan(name string, birthday string) HelloMan {
 	var man HelloMan
 	currentId += 1
 	man.Id = currentId
 	man.Name = name
+	man.DateOfBirth = birthday
 	helloPeople = append(helloPeople, man)
 	return man
 }
 
-func RepoUpdateMan(birthday string, name string) {
+func RepoUpdateMan(name string, birthday string) {
 	for i, it := range helloPeople {
 		if it.Name == name {
 			helloPeople[i].DateOfBirth = birthday
