@@ -5,8 +5,8 @@ import "fmt"
 var currentId int
 var helloPeople HelloPeople
 
-
-func RepoCreateMan(man HelloMan, name string) HelloMan {
+func RepoCreateMan(name string) HelloMan {
+	var man HelloMan
 	currentId += 1
 	man.Id = currentId
 	man.Name = name
@@ -14,14 +14,12 @@ func RepoCreateMan(man HelloMan, name string) HelloMan {
 	return man
 }
 
-func RepoUpdateMan(birthday string, name string) bool {
+func RepoUpdateMan(birthday string, name string) {
 	for i, it := range helloPeople {
 		if it.Name == name {
 			helloPeople[i].DateOfBirth = birthday
-			return true
 		}
 	}
-	return false
 }
 
 func RepoFindMan(name string) HelloMan {
@@ -40,5 +38,5 @@ func RepoDestroyMan(id int) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("could not find Man with provided name to delete")
+	return fmt.Errorf("Could not find Man with provided name to delete.")
 }

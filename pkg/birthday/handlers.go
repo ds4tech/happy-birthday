@@ -69,13 +69,8 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	if man != (HelloMan{}) {
 		RepoUpdateMan(helloMan.DateOfBirth, name)
 	} else {
-		RepoCreateMan(helloMan, name)
+		RepoCreateMan(name)
 	}
 
 	w.WriteHeader(http.StatusNoContent)
-	/*
-		if err := json.NewEncoder(w).Encode(t); err != nil {
-			panic(err)
-		}
-	*/
 }
