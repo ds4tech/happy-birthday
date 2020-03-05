@@ -14,7 +14,7 @@ deployments/aws/ecs/.terraform/
 deployments/aws/ecs/.terraform.tfstate.lock.info
 deployments/aws/ecs/mykey
 deployments/aws/ecs/mykey.pub
-deployments/kubernetes/terraform.tfstate
-deployments/kubernetes/terraform.tfstate.backup
-deployments/kubernetes/.terraform/
+deployments/kubernetes/terraform-gcp-cluster/terraform.tfstate
+deployments/kubernetes/terraform-gcp-cluster/terraform.tfstate.backup
+deployments/kubernetes/terraform-gcp-cluster/.terraform/
 deployments/kubernetes/terraform-gcp-cluster/GoLang-77e991c90d97.json
