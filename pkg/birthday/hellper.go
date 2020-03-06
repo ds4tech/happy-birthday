@@ -2,7 +2,9 @@ package birthday
 
 import (
 	"fmt"
+	"log"
 	"math"
+	"os"
 	"time"
 )
 
@@ -37,4 +39,24 @@ func calculateDaysDifference(birthday string) int {
 
 	daysDifference := math.Floor(dayOfBirth.Sub(dayOfToday).Hours() / 24)
 	return int(daysDifference)
+}
+
+func CreateFile(p string) *os.File {
+	fmt.Println("Logging to a file.")
+	f, err := os.Create(p)
+	// file, err := os.OpenFile(p, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		// panic(err)
+		log.Panic(err)
+	}
+	return f
+}
+func CloseFile(f *os.File) {
+	fmt.Println("Closing file.")
+	err := f.Close()
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
+	}
 }

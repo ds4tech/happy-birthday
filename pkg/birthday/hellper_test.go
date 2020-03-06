@@ -53,3 +53,13 @@ func TestTodayIsYourBirthday(t *testing.T) {
 		t.Errorf("expecting %v, got %v", expecting, result)
 	}
 }
+
+func TestCloseFikle(t *testing.T) {
+	var file = CreateFile("info.log")
+	defer CloseFile(file)
+	// 	result := "test"
+	// 	expected := "test"
+	// 	if result != expected {
+	// 		t.Errorf("Expected: \n%v\n, got \n%v", expected, result)
+	// 	}
+}
