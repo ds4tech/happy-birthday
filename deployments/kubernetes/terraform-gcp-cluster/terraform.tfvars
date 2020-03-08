@@ -2,7 +2,7 @@
 # REQUIRED: Google account credentials
 #--------------------------------------------
 
-account_file_path = "/Users/mateusz.szymczyk/go/src/github.com/ds4tech/happy-birthday/deployments/kubernetes/terraform-gcp-cluster/GoLang-77e991c90d97.json"
+account_file_path = "service_account.json"
 project  = "golang-168812"
 
 
