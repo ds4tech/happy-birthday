@@ -17,4 +17,5 @@ deployments/aws/ecs/mykey.pub
 deployments/kubernetes/terraform-gcp-cluster/terraform.tfstate
 deployments/kubernetes/terraform-gcp-cluster/terraform.tfstate.backup
 deployments/kubernetes/terraform-gcp-cluster/.terraform/
-deployments/kubernetes/terraform-gcp-cluster/GoLang-77e991c90d97.json
+deployments/kubernetes/terraform-gcp-cluster/.terraform.tfstate.lock.info
+deployments/kubernetes/terraform-gcp-cluster/service_account.json
