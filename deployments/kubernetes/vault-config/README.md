@@ -14,16 +14,20 @@
 9. ```vault kv get secret/exampleapp/config```
 10. ```vault auth enable kubernetes```
 11. 
-```vault write auth/kubernetes/config 
-        		token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" 
-        		kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" 
-        		kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt```
+```
+vault write auth/kubernetes/config \
+    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+    kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+```
 10. 
-```vault policy write exampleapp - <<EOH
+```
+vault policy write exampleapp - <<EOH
 		path "secret/data/exampleapp/config" {
 		  capabilities = ["read"]
 		}
-	EOH```
+	EOH
+```
 11. 
 ```
 vault write auth/kubernetes/role/exampleapp bound_service_account_names=vault bound_service_account_namespaces=default policies=exampleapp ttl=24h
