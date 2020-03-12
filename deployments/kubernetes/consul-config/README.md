@@ -8,9 +8,8 @@ helm install -f helm-consul-values.yaml hashicorp ./consul-helm
 
 k port-forward hashicorp-consul-server-0  8500:8500
 ```
-or
-```k port-forward dashboard 9002:9002```
 
+2. 
 Manage consul rules:
 ```
 consul intention create dashboard counting
