@@ -5,9 +5,9 @@ global:
 # Enable the Consul Web UI via a NodePort
 ui:
   service:
-#    type: 'NodePort'
+    type: 'NodePort'
 # if deployed on gcloud then type should be set to loadBalancer
-    type: 'LoadBalancer'
+#    type: 'LoadBalancer'
 
 #Required on gcloud
 syncCatalog:
