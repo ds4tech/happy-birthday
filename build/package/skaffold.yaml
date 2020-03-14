@@ -1,0 +1,11 @@
+apiVersion: skaffold/v1
+kind: Config
+build:
+  artifacts:
+  - image: ds4tech/happy-birthday
+    docker:
+      dockerfile: build/package/Dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - deployments/kubernetes/k8s-*

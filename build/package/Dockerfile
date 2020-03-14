@@ -5,6 +5,7 @@ LABEL maintainer="Mateusz Szymczyk"
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
+#WORKDIR $GOPATH/src/github.com/ds4tech/happy-birthday
 
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . .
