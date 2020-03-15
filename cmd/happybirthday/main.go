@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,4 +19,13 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8888", router))
 
 	defer birthday.CloseFile(file)
+
+	// Close the connection once no longer needed
+	err := birthday.Client.Disconnect(context.TODO())
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("Connection to MongoDB closed.")
+	}
 }
