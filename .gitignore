@@ -2,11 +2,8 @@ tmp
 main
 info.log
 pkg/birthday/cover.out
-deployments/aws/ecs-jenkins/mykey
-deployments/aws/ecs-jenkins/mykey.pub
-deployments/aws/ecs/mykey
-deployments/aws/ecs/mykey.pub
 deployments/kubernetes/terraform-gcp-cluster/service_account.json
+deployments/kubernetes/terraform-gcp-cluster/credentials-velero.json
 
 # Compiled files
 *.tfstate
@@ -21,7 +18,7 @@ deployments/kubernetes/terraform-gcp-cluster/service_account.json
 *.tfstate.lock.info
 
 # Terraform Variables
-*.tfvars
+#*.tfvars
 
 # Ignored Terraform files
 *gitignore*.tf
@@ -34,3 +31,5 @@ deployments/kubernetes/terraform-gcp-cluster/service_account.json
 
 # Generated private key
 *.key
+*mykey
+*mykey.pub

@@ -20,17 +20,36 @@ vault write auth/kubernetes/config \
     kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
     kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 ```
+
 10. 
 ```
-vault policy write exampleapp - <<EOH
-		path "secret/data/exampleapp/config" {
-		  capabilities = ["read"]
-		}
-	EOH
+vault policy write webapp - <<EOH
+path "secret/data/webapp/config" {
+  capabilities = ["read"]
+}
+EOH
 ```
 11. 
 ```
-vault write auth/kubernetes/role/exampleapp bound_service_account_names=vault bound_service_account_namespaces=default policies=exampleapp ttl=24h
+vault write auth/kubernetes/role/webapp \
+    bound_service_account_names=vault \
+    bound_service_account_namespaces=default \
+    policies=webapp \
+    ttl=24h
 ```
+
+kubectl exec -it vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > cluster-keys.json
+
+kubectl exec -it vault-0 -- vault operator unseal YOzhtj77eNd56I9LxFjtHDoI=
+kubectl exec -it vault-1 -- vault operator unseal YOzhtj77eNd56I9LxFjtHDoI=
+kubectl exec -it vault-2 -- vault operator unseal YOzhtj77eNd56I9LxFjtHDoI=
+
+kubectl exec -it vault-0 -- /bin/sh
+
+
+
+vault kv put secret/webapp/config username="static-user" password="static-password"
+
+vault auth enable kubernetes
 
 **NOTE:** Refer to the [Vault on Kubernetes](https://learn.hashicorp.com/vault/getting-started-k8s/k8s-intro) documentation for more details.
