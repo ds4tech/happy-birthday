@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,7 +11,7 @@ import (
 var file = birthday.CreateFile("info.log")
 
 func main() {
-	birthday.ConnectMongoDB()
+	//birthday.ConnectMongoDB()
 
 	fmt.Println("Starting server...")
 	router := birthday.NewRouter(file)
@@ -21,11 +20,10 @@ func main() {
 	defer birthday.CloseFile(file)
 
 	// Close the connection once no longer needed
-	err := birthday.Client.Disconnect(context.TODO())
-
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println("Connection to MongoDB closed.")
-	}
+	// err := birthday.Client.Disconnect(context.TODO())
+	// if err != nil {
+	// 	log.Fatal(err)
+	// } else {
+	// 	fmt.Println("Connection to MongoDB closed.")
+	// }
 }

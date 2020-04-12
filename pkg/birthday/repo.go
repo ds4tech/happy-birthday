@@ -1,6 +1,8 @@
 package birthday
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var currentId int
 var helloPeople HelloPeople
@@ -13,7 +15,7 @@ func RepoCreateMan(name string, birthday string) HelloMan {
 	man.DateOfBirth = birthday
 	helloPeople = append(helloPeople, man)
 
-	// SaveCollection(Client.Database("people"))
+	SaveCollection(man)
 	return man
 }
 

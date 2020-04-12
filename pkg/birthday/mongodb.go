@@ -11,37 +11,50 @@ import (
 
 var collectionName string = "hellopeople"
 
-var Client *mongo.Client
-
-func ConnectMongoDB() {
-	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-
-	// Connect to MongoDB
-	Client, err := mongo.Connect(context.TODO(), clientOptions)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Check the connection
-	err = Client.Ping(context.TODO(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
+type Connection struct {
+	collection *mongo.Collection
 }
 
-func SaveCollection(db *mongo.Database) {
-	collection := db.Collection(collectionName)
-	fmt.Println("tutaj dziala; ", collectionName)
+// var Client *mongo.Client
 
+// func ConnectMongoDB() {
+// 	// Set client options
+// 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+
+// 	// Connect to MongoDB
+// 	Client, err := mongo.Connect(context.TODO(), clientOptions)
+
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	// Check the connection
+// 	err = Client.Ping(context.TODO(), nil)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	fmt.Println("Connected to MongoDB!")
+// }
+
+func SaveCollection(helloMan HelloMan) {
+
+	ctx := context.Background()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		panic(err)
+	}
+
+	defer client.Disconnect(ctx)
+
+	connection := Connection{
+		collection: client.Database("people").Collection(collectionName),
+	}
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
-	john := HelloMan{3, "John", "Town"}
+	john := HelloMan{2, "John", "Town"}
 
 	// Insert a single document
-	insertResult, err := collection.InsertOne(context.TODO(), john)
+	insertResult, err := connection.collection.InsertOne(context.TODO(), john)
 	if err != nil {
 		log.Fatal(err)
 	}
