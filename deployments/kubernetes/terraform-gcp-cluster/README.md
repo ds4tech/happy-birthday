@@ -6,7 +6,7 @@ If you wish to test the Kubernetes auth method against an Google Kubernetes Engi
 
 1. Modify `terraform.tfvars.example` and provide GCP credentials: `account_file_path` and `project`, and save it as `terraform.tfvars`.
 
-1. Execute the following Terraform commands:
+2. Execute the following Terraform commands:
 
     ```shell
     # Pull necessary plugins
@@ -19,7 +19,7 @@ If you wish to test the Kubernetes auth method against an Google Kubernetes Engi
     $ terraform apply -auto-approve
     ```
 
-1. Now, you should be able to start working with the GKE cluster:
+3. Now, you should be able to start working with the GKE cluster:
 
     ```shell
     # Connect to your GKE cluster
