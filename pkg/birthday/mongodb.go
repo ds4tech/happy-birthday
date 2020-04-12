@@ -37,7 +37,7 @@ type Connection struct {
 // 	fmt.Println("Connected to MongoDB!")
 // }
 
-func SaveCollection(helloMan HelloMan) {
+func SaveCollection(man HelloMan) {
 
 	ctx := context.Background()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
@@ -51,10 +51,10 @@ func SaveCollection(helloMan HelloMan) {
 		collection: client.Database("people").Collection(collectionName),
 	}
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
-	john := HelloMan{2, "John", "Town"}
+	//john := HelloMan{2, "John", "Town"}
 
 	// Insert a single document
-	insertResult, err := connection.collection.InsertOne(context.TODO(), john)
+	insertResult, err := connection.collection.InsertOne(context.TODO(), man)
 	if err != nil {
 		log.Fatal(err)
 	}
