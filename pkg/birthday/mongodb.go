@@ -38,7 +38,6 @@ type Connection struct {
 // }
 
 func SaveCollection(man HelloMan) {
-
 	ctx := context.Background()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
@@ -53,10 +52,44 @@ func SaveCollection(man HelloMan) {
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
 	//john := HelloMan{2, "John", "Town"}
 
-	// Insert a single document
 	insertResult, err := connection.collection.InsertOne(context.TODO(), man)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
+}
+
+func UpdateCollection(oldMan HelloMan, newMan HelloMan) {
+	ctx := context.Background()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		panic(err)
+	}
+
+	defer client.Disconnect(ctx)
+
+	connection := Connection{
+		collection: client.Database("people").Collection(collectionName),
+	}
+
+	findOne := connection.collection.FindOne(context.TODO(), oldMan)
+
+	upsertResult, err := connection.collection.UpdateOne(context.TODO(), findOne, newMan)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Updated a single document: ", upsertResult.UpsertedID)
+}
+
+func FindCollection(name string, birthday string) {
+	fmt.Println("RepoUpdateMan")
+	oldMan := RepoFindMan(name)
+	newMan := RepoFindMan(name)
+	newMan.DateOfBirth = birthday
+
+	for i, it := range helloPeople {
+		if it.Name == name {
+			helloPeople[i] = newMan
+		}
+	}
 }
