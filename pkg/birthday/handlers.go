@@ -71,7 +71,7 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	//man := RepoFindMan(name)
 	if FindCollection(helloMan) {
 		//RepoUpdateMan(name, helloMan.DateOfBirth)
-		UpdateCollection(helloMan, helloMan)
+		UpdateCollection(helloMan)
 	} else {
 		//RepoCreateMan(name, helloMan.DateOfBirth)
 		SaveCollection(helloMan)

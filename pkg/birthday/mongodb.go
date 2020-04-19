@@ -14,10 +14,6 @@ import (
 
 var collectionName string = "hellopeople"
 
-type Connection struct {
-	collection *mongo.Collection
-}
-
 // var Client *mongo.Client
 
 // func ConnectMongoDB() {
@@ -41,43 +37,59 @@ type Connection struct {
 // }
 
 func SaveCollection(man HelloMan) {
-	ctx := context.Background()
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		panic(err)
 	}
 	defer client.Disconnect(ctx)
-	connection := Connection{
-		collection: client.Database("people").Collection(collectionName),
-	}
+	col := client.Database("people").Collection(collectionName)
+
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
 	//john := HelloMan{2, "John", "Town"}
 
-	insertResult, err := connection.collection.InsertOne(context.TODO(), man)
+	insertResult, err := col.InsertOne(context.TODO(), man)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 }
 
-func UpdateCollection(oldMan HelloMan, newMan HelloMan) {
-	ctx := context.Background()
+func UpdateCollection(newMan HelloMan) {
+	var oldMan HelloMan
+
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		panic(err)
 	}
 	defer client.Disconnect(ctx)
-	connection := Connection{
-		collection: client.Database("people").Collection(collectionName),
-	}
+	col := client.Database("people").Collection(collectionName)
 
-	findOne := connection.collection.FindOne(context.TODO(), oldMan)
-
-	upsertResult, err := connection.collection.UpdateOne(context.TODO(), findOne, newMan)
+	cursor, err := col.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Finding all documents ERROR:", err)
+		defer cursor.Close(ctx)
+	} else {
+		// iterate over docs using Next()
+		for cursor.Next(ctx) {
+			err := cursor.Decode(&oldMan)
+			if err != nil {
+				fmt.Println("cursor.Next() error:", err)
+				os.Exit(1)
+			} else {
+				if oldMan.Name == newMan.Name {
+					fmt.Println("Updating: ", oldMan.Name)
+					break
+				}
+			}
+		}
 	}
-	fmt.Println("Updated a single document: ", upsertResult.UpsertedID)
+
+	_, err = col.UpdateOne(context.TODO(), oldMan, bson.D{{"$set", newMan}})
+	if err != nil {
+		panic(err)
+	}
 }
 
 //func FindCollection(name string, birthday string) *mongo.SingleResult {
@@ -88,8 +100,8 @@ func FindCollection(man HelloMan) bool {
 		panic(err)
 	}
 	defer client.Disconnect(ctx)
-
 	col := client.Database("people").Collection(collectionName)
+
 	cursor, err := col.Find(context.TODO(), bson.D{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR:", err)
@@ -106,8 +118,6 @@ func FindCollection(man HelloMan) bool {
 			} else {
 				//fmt.Println("\nresult type:", reflect.TypeOf(result))
 				if result.Name == man.Name {
-					fmt.Println("found:", result.Name)
-					man.DateOfBirth = result.DateOfBirth
 					return true
 				}
 			}
