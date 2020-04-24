@@ -37,7 +37,6 @@ var collectionName string = "hellopeople"
 // }
 
 func SaveCollection(man HelloMan) {
-	fmt.Println("SaveCollection") //log to console
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
@@ -61,8 +60,8 @@ func DeleteCollection(newMan HelloMan) {
 }
 
 func UpdateCollection(newMan HelloMan) {
-	fmt.Println("UpdateCollection") //log to console
-	var oldMan HelloMan
+	oldMan := FindMan(newMan.Name)
+	fmt.Println("Updating: ", oldMan.Name)
 
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
@@ -72,26 +71,6 @@ func UpdateCollection(newMan HelloMan) {
 	defer client.Disconnect(ctx)
 	col := client.Database("people").Collection(collectionName)
 
-	cursor, err := col.Find(context.TODO(), bson.D{})
-	if err != nil {
-		fmt.Println("Finding all documents ERROR:", err)
-		defer cursor.Close(ctx)
-	} else {
-		// iterate over docs using Next()
-		for cursor.Next(ctx) {
-			err := cursor.Decode(&oldMan)
-			if err != nil {
-				fmt.Println("cursor.Next() error:", err)
-				os.Exit(1)
-			} else {
-				if oldMan.Name == newMan.Name {
-					break
-				}
-			}
-		}
-	}
-
-	fmt.Println("Updating: ", oldMan.Name)
 	_, err = col.UpdateOne(context.TODO(), oldMan, bson.D{{"$set", newMan}})
 	if err != nil {
 		panic(err)
@@ -99,16 +78,11 @@ func UpdateCollection(newMan HelloMan) {
 }
 
 func FindCollection(man HelloMan) bool {
-
-	isEmptyObject := FindMan(man.Name)
-
-	if isEmptyObject != (HelloMan{}) {
-		return true
-	} else {
+	if FindMan(man.Name) == (HelloMan{}) {
 		return false
+	} else {
+		return true
 	}
-	//err = col.FindOne(context.TODO(), bson.D{}).Decode(&result)
-	//fmt.Printf("findOne: %v\n", result)
 }
 
 func FindMan(name string) HelloMan {

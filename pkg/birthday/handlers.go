@@ -58,13 +58,13 @@ func DeleteSomebody(w http.ResponseWriter, r *http.Request) {
 	var helloMan HelloMan
 	helloMan.Name = name
 
-	// man := RepoFindMan(name)
 	if FindCollection(helloMan) {
-		msg := WhenIsBirthday(helloMan.DateOfBirth, name)
-		//fmt.Println(msg) //log to console
+		msg := fmt.Sprintf("Person with the name: %s has been deleted from database.", name)
+		fmt.Println(msg) //log to console
 		jsonMap := map[string]string{"msg": msg}
 		jsonResult, _ := json.Marshal(jsonMap)
 		fmt.Fprintf(w, string(jsonResult))
+		DeleteCollection(helloMan)
 	} else {
 		fmt.Fprintf(w, `{"msg":"Unfortunatelly, name '%s' is not in the database."}`, name)
 	}
