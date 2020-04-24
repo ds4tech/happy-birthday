@@ -37,6 +37,7 @@ var collectionName string = "hellopeople"
 // }
 
 func SaveCollection(man HelloMan) {
+	fmt.Println("SaveCollection") //log to console
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
@@ -55,7 +56,12 @@ func SaveCollection(man HelloMan) {
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 }
 
+func DeleteCollection(newMan HelloMan) {
+	fmt.Println("Delete smb function.")
+}
+
 func UpdateCollection(newMan HelloMan) {
+	fmt.Println("UpdateCollection") //log to console
 	var oldMan HelloMan
 
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
@@ -79,21 +85,35 @@ func UpdateCollection(newMan HelloMan) {
 				os.Exit(1)
 			} else {
 				if oldMan.Name == newMan.Name {
-					fmt.Println("Updating: ", oldMan.Name)
 					break
 				}
 			}
 		}
 	}
 
+	fmt.Println("Updating: ", oldMan.Name)
 	_, err = col.UpdateOne(context.TODO(), oldMan, bson.D{{"$set", newMan}})
 	if err != nil {
 		panic(err)
 	}
 }
 
-//func FindCollection(name string, birthday string) *mongo.SingleResult {
 func FindCollection(man HelloMan) bool {
+
+	isEmptyObject := FindMan(man.Name)
+
+	if isEmptyObject != (HelloMan{}) {
+		return true
+	} else {
+		return false
+	}
+	//err = col.FindOne(context.TODO(), bson.D{}).Decode(&result)
+	//fmt.Printf("findOne: %v\n", result)
+}
+
+func FindMan(name string) HelloMan {
+	var man HelloMan
+
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
@@ -109,22 +129,18 @@ func FindCollection(man HelloMan) bool {
 	} else {
 		// iterate over docs using Next()
 		for cursor.Next(ctx) {
-			//var result bson.M
-			var result HelloMan
-			err := cursor.Decode(&result)
+			err := cursor.Decode(&man)
 			if err != nil {
 				fmt.Println("cursor.Next() error:", err)
 				os.Exit(1)
 			} else {
 				//fmt.Println("\nresult type:", reflect.TypeOf(result))
-				if result.Name == man.Name {
-					return true
+				if man.Name == name {
+					return man
 				}
 			}
 		}
 	}
 
-	//err = col.FindOne(context.TODO(), bson.D{}).Decode(&result)
-	//fmt.Printf("findOne: %v\n", result)
-	return false
+	return HelloMan{}
 }
