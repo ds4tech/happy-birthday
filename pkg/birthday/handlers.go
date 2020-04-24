@@ -34,11 +34,9 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 
 	name := html.EscapeString(r.URL.Path)
 	name = name[7:]
-	var helloMan HelloMan
-	helloMan.Name = name
 
-	man := RepoFindMan(name)
-	if man != (HelloMan{}) {
+	helloMan := RepoFindMan(name)
+	if helloMan != (HelloMan{}) {
 		msg := WhenIsBirthday(helloMan.DateOfBirth, name)
 		//fmt.Println(msg) //log to console
 		jsonMap := map[string]string{"msg": msg}
@@ -81,8 +79,7 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	name = name[7:]
 	helloMan.Name = name
 
-	man := RepoFindMan(name)
-	if man != (HelloMan{}) {
+	if RepoFindMan(name) != (HelloMan{}) {
 		RepoUpdateMan(name, helloMan.DateOfBirth)
 	} else {
 		RepoCreateMan(name, helloMan.DateOfBirth)
