@@ -49,6 +49,27 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func DeleteSomebody(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	name := html.EscapeString(r.URL.Path)
+	name = name[7:]
+	var helloMan HelloMan
+	helloMan.Name = name
+
+	// man := RepoFindMan(name)
+	if FindCollection(helloMan) {
+		msg := WhenIsBirthday(helloMan.DateOfBirth, name)
+		//fmt.Println(msg) //log to console
+		jsonMap := map[string]string{"msg": msg}
+		jsonResult, _ := json.Marshal(jsonMap)
+		fmt.Fprintf(w, string(jsonResult))
+	} else {
+		fmt.Fprintf(w, `{"msg":"Unfortunatelly, name '%s' is not in the database."}`, name)
+	}
+}
+
 func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	var helloMan HelloMan
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))

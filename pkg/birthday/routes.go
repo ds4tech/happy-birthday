@@ -48,6 +48,12 @@ var routes = Routes{
 		Hello,
 	},
 	Route{
+		"DeleteSomebody",
+		"DELETE",
+		"/hello/{somebody}",
+		DeleteSomebody,
+	},
+	Route{
 		"HelloSomebody",
 		"GET",
 		"/hello/{somebody}",
