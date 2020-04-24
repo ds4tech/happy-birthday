@@ -15,7 +15,6 @@ func RepoCreateMan(name string, birthday string) HelloMan {
 	man.DateOfBirth = birthday
 	helloPeople = append(helloPeople, man)
 
-	SaveCollection(man)
 	return man
 }
 

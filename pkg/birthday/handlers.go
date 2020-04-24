@@ -37,8 +37,8 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 	var helloMan HelloMan
 	helloMan.Name = name
 
-	// man := RepoFindMan(name)
-	if FindCollection(helloMan) {
+	man := RepoFindMan(name)
+	if man != (HelloMan{}) {
 		msg := WhenIsBirthday(helloMan.DateOfBirth, name)
 		//fmt.Println(msg) //log to console
 		jsonMap := map[string]string{"msg": msg}
@@ -57,17 +57,9 @@ func DeleteSomebody(w http.ResponseWriter, r *http.Request) {
 	name = name[7:]
 	var helloMan HelloMan
 	helloMan.Name = name
-
-	if FindCollection(helloMan) {
-		msg := fmt.Sprintf("Person with the name: %s has been deleted from database.", name)
-		fmt.Println(msg) //log to console
-		jsonMap := map[string]string{"msg": msg}
-		jsonResult, _ := json.Marshal(jsonMap)
-		fmt.Fprintf(w, string(jsonResult))
-		DeleteCollection(helloMan)
-	} else {
-		fmt.Fprintf(w, `{"msg":"Unfortunatelly, name '%s' is not in the database."}`, name)
-	}
+	//
+	//missing logic
+	//
 }
 
 func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
@@ -89,13 +81,11 @@ func SaveSmbsName(w http.ResponseWriter, r *http.Request) {
 	name = name[7:]
 	helloMan.Name = name
 
-	//man := RepoFindMan(name)
-	if FindCollection(helloMan) {
-		//RepoUpdateMan(name, helloMan.DateOfBirth)
-		UpdateCollection(helloMan)
+	man := RepoFindMan(name)
+	if man != (HelloMan{}) {
+		RepoUpdateMan(name, helloMan.DateOfBirth)
 	} else {
-		//RepoCreateMan(name, helloMan.DateOfBirth)
-		SaveCollection(helloMan)
+		RepoCreateMan(name, helloMan.DateOfBirth)
 	}
 
 	w.WriteHeader(http.StatusNoContent)
