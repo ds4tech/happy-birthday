@@ -12,38 +12,30 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var collectionName string = "hellopeople"
+var db *mongo.Database
 
-// var Client *mongo.Client
+const DBNAME = "people"
+const CONNECTIONSTRING = "mongodb://localhost:27017"
+const COLLECTIONNAME = "hellopeople"
 
-// func ConnectMongoDB() {
-// 	// Set client options
-// 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-
-// 	// Connect to MongoDB
-// 	Client, err := mongo.Connect(context.TODO(), clientOptions)
-
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	// Check the connection
-// 	err = Client.Ping(context.TODO(), nil)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	fmt.Println("Connected to MongoDB!")
-// }
+// Connect establish a connection to database
+func init() {
+	//ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	client, err := mongo.NewClient(options.Client().ApplyURI(CONNECTIONSTRING))
+	//client, err := mongo.Connect(ctx, options.Client().ApplyURI(CONNECTIONSTRING))
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = client.Connect(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Collection types can be used to access the database
+	db = client.Database(DBNAME)
+}
 
 func SaveCollection(man HelloMan) {
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		panic(err)
-	}
-	defer client.Disconnect(ctx)
-	col := client.Database("people").Collection(collectionName)
+	col := db.Collection(COLLECTIONNAME)
 
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
 	//john := HelloMan{2, "John", "Town"}
@@ -57,21 +49,21 @@ func SaveCollection(man HelloMan) {
 
 func DeleteCollection(newMan HelloMan) {
 	fmt.Println("Delete smb function.")
+
+	col := db.Collection(COLLECTIONNAME)
+	_, err := col.DeleteOne(context.TODO(), newMan)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func UpdateCollection(newMan HelloMan) {
 	oldMan := FindMan(newMan.Name)
 	fmt.Println("Updating: ", oldMan.Name)
 
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		panic(err)
-	}
-	defer client.Disconnect(ctx)
-	col := client.Database("people").Collection(collectionName)
+	col := db.Collection(COLLECTIONNAME)
 
-	_, err = col.UpdateOne(context.TODO(), oldMan, bson.D{{"$set", newMan}})
+	_, err := col.UpdateOne(context.TODO(), oldMan, bson.D{{"$set", newMan}})
 	if err != nil {
 		panic(err)
 	}
@@ -89,12 +81,7 @@ func FindMan(name string) HelloMan {
 	var man HelloMan
 
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		panic(err)
-	}
-	defer client.Disconnect(ctx)
-	col := client.Database("people").Collection(collectionName)
+	col := db.Collection(COLLECTIONNAME)
 
 	cursor, err := col.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -115,6 +102,5 @@ func FindMan(name string) HelloMan {
 			}
 		}
 	}
-
 	return HelloMan{}
 }
