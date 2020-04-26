@@ -39,7 +39,7 @@ func HelloSomebody(w http.ResponseWriter, r *http.Request) {
 
 	if FindCollection(helloMan) {
 		msg := WhenIsBirthday(helloMan.DateOfBirth, name)
-		//fmt.Println(msg) //log to console
+		//fmt.Println(helloMan) //log to console
 		jsonMap := map[string]string{"msg": msg}
 		jsonResult, _ := json.Marshal(jsonMap)
 		fmt.Fprintf(w, string(jsonResult))
@@ -58,7 +58,7 @@ func DeleteSomebody(w http.ResponseWriter, r *http.Request) {
 	helloMan.Name = name
 
 	if FindCollection(helloMan) {
-		msg := fmt.Sprintf("Person with the name: %s has been deleted from database.", name)
+		msg := fmt.Sprintf("Person name: %s has been deleted from database.", name)
 		fmt.Println(msg) //log to console
 		jsonMap := map[string]string{"msg": msg}
 		jsonResult, _ := json.Marshal(jsonMap)

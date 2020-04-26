@@ -18,7 +18,6 @@ const DBNAME = "people"
 const CONNECTIONSTRING = "mongodb://localhost:27017"
 const COLLECTIONNAME = "hellopeople"
 
-// Connect establish a connection to database
 func init() {
 	//ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	client, err := mongo.NewClient(options.Client().ApplyURI(CONNECTIONSTRING))
@@ -30,7 +29,6 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Collection types can be used to access the database
 	db = client.Database(DBNAME)
 }
 
@@ -39,7 +37,7 @@ func SaveCollection(man HelloMan) {
 
 	//ash := HelloMan{1, "Ash", "Pallet Town"}
 	//john := HelloMan{2, "John", "Town"}
-
+	man.Id = 0 //filed not used
 	insertResult, err := col.InsertOne(context.TODO(), man)
 	if err != nil {
 		log.Fatal(err)
@@ -47,11 +45,10 @@ func SaveCollection(man HelloMan) {
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 }
 
-func DeleteCollection(newMan HelloMan) {
-	fmt.Println("Delete smb function.")
+func DeleteCollection(person HelloMan) {
+	_, err := db.Collection(COLLECTIONNAME).DeleteOne(context.Background(), person, nil)
+	// _, err := db.Collection(COLLECTIONNAME).DeleteOne(context.Background(), bson.D{{"Id": 1, "Name": Olga, "dateOfBirth": "1988 - 04 - 12"}}, nil)
 
-	col := db.Collection(COLLECTIONNAME)
-	_, err := col.DeleteOne(context.TODO(), newMan)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +83,6 @@ func FindMan(name string) HelloMan {
 	cursor, err := col.Find(context.TODO(), bson.D{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR:", err)
-		defer cursor.Close(ctx)
 	} else {
 		// iterate over docs using Next()
 		for cursor.Next(ctx) {
@@ -95,12 +91,13 @@ func FindMan(name string) HelloMan {
 				fmt.Println("cursor.Next() error:", err)
 				os.Exit(1)
 			} else {
-				//fmt.Println("\nresult type:", reflect.TypeOf(result))
 				if man.Name == name {
 					return man
 				}
 			}
 		}
 	}
+	defer cursor.Close(ctx)
+
 	return HelloMan{}
 }
