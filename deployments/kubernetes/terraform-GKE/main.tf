@@ -4,38 +4,40 @@ provider "google" {
   region      = var.gcloud-region
 }
 
-resource "google_container_cluster" "gcp_kubernetes" {
+resource "google_container_cluster" "primary" {
   name               = var.cluster_name
   location           = var.gcloud-zone
   initial_node_count = var.gcp_cluster_count
 
-  # Temporal workaround for Google provider issue $4010
-  maintenance_policy {
-    daily_maintenance_window {
-      start_time = "03:00"
-    }
-  }
-
   master_auth {
     username = var.linux_admin_username
-    password = "${var.linux_admin_password}}"
+    password = var.linux_admin_password
+
+    client_certificate_config {
+      issue_client_certificate = false
+    }
   }
+}
+
+resource "google_container_node_pool" "primary_preemptible_nodes" {
+  name       = "my-node-pool"
+  location   = var.gcloud-zone
+  cluster    = google_container_cluster.primary.name
+  node_count = 1
 
   node_config {
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/compute",
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring",
-    ]
+    preemptible  = true
+    machine_type = var.machine_type
+    tags = ["dev", "work"]
 
     labels = {
       this-is-for = "dev-cluster"
     }
 
-    tags = ["dev", "work"]
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
 
-    machine_type = var.machine_type
   }
 }
 
@@ -43,19 +45,19 @@ resource "google_container_cluster" "gcp_kubernetes" {
 # Outputs
 #--------------------------------------------
 output "gcp_cluster_endpoint" {
-  value = google_container_cluster.gcp_kubernetes.endpoint
+  value = google_container_cluster.primary.endpoint
 }
 
 output "gcp_cluster_name" {
-  value = google_container_cluster.gcp_kubernetes.name
+  value = google_container_cluster.primary.name
 }
 
 output "gcp_ssh_command" {
-  value = "ssh ${var.linux_admin_username}@${google_container_cluster.gcp_kubernetes.endpoint}"
+  value = "ssh ${var.linux_admin_username}@${google_container_cluster.primary.endpoint}"
 }
 
 output "gcp_zone" {
-  value = google_container_cluster.gcp_kubernetes.location
+  value = google_container_cluster.primary.location
 }
 
 output "gcp_project" {
