@@ -34,6 +34,8 @@ resource "google_container_cluster" "gcp_kubernetes" {
     }
 
     tags = ["dev", "work"]
+
+    machine_type = var.machine_type
   }
 }
 

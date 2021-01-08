@@ -42,3 +42,7 @@ variable "cluster_name" {
   default     = "vault-test"
 }
 
+variable "machine_type" {
+  description = "Machine type of nodes."
+  default     = "n1-standard-1"
+}
