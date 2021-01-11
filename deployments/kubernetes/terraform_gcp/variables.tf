@@ -1,9 +1,9 @@
 #--------------------------------------------
 # REQUIRED: Google account credentials
 #--------------------------------------------
-variable "account_file_path" {
-  description = "Your GCP account file location"
-}
+# variable "account_file_path" {
+#   description = "Your GCP account file location"
+# }
 
 variable "project" {
   description = "Your GCP project name"

@@ -2,7 +2,6 @@
 # REQUIRED: Google account credentials
 #--------------------------------------------
 
-account_file_path = "service_account.json"
 project  = "golang-168812"
 
 
@@ -11,10 +10,7 @@ project  = "golang-168812"
 #--------------------------------------------------------------------------------------
 
 gcloud-region   = "europe-west4"
-gcloud-zone     = "europe-west4-a"
-cluster_name    = "k8s-test"
-gcp_cluster_count = 1 #2 for consul 3 for vault is required
+gcloud-zone     = "europe-west4-b"
 #machine-type= "n1-standard-1"
-#machine-type= "g1-small"
 # linux_admin_username = "ubuntu"
 # linux_admin_password = "vault-agent-test-with-k8s"
