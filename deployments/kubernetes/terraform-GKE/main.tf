@@ -7,7 +7,9 @@ provider "google" {
 resource "google_container_cluster" "primary" {
   name               = var.cluster_name
   location           = var.gcloud-zone
-  initial_node_count = var.gcp_cluster_count
+  min_master_version = "1.17.14-gke.1600"
+  remove_default_node_pool = true
+  initial_node_count       = 1
 
   master_auth {
     username = var.linux_admin_username
@@ -17,13 +19,17 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+
+  # istio_config {
+  #   disabled =  true
+  # }
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "my-node-pool"
   location   = var.gcloud-zone
   cluster    = google_container_cluster.primary.name
-  node_count = 1
+  node_count = var.gcp_cluster_count
 
   node_config {
     preemptible  = true
@@ -37,8 +43,8 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
-
   }
+
 }
 
 #--------------------------------------------
